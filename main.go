@@ -21,7 +21,7 @@ func main() {
 		port = "80"
 	}
 	if secret == ""{
-		secret = "123456"
+		secret = "yoooooo"
 	}
 	addr := fmt.Sprintf(":%s", port)
 	debug := flag.Bool("debug", false, "debug mode")
