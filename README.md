@@ -54,7 +54,7 @@ windows下 下载cracker最新的release：https://github.com/lovedboy/cracker/r
 
 打开cmd 输入exe存放地址 后跟 -raddr https://*****.herokuapp.com -secret ***** 默认本地1080端口
 
-例 windows客户端我存放在E盘 执行命令如下
+例 windows客户端我存放在E盘/WALL/Cracker 文件夹下 执行命令如下
 
 ![](https://github.com/wangwill/cracker-heroku/blob/master/cmd-instruction.png)
 
