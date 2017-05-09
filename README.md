@@ -3,7 +3,7 @@
 Deploy the server side of [cracker](https://github.com/lovedboy/cracker) on [heroku](https://heroku.com/)
 
 需要 github 以及 Heroku 账户用来部署
-基本步骤可以参照此链接 https://raw.githubusercontent.com/521xueweihan/shadowsocks-heroku/master/README.md
+基本步骤可以参照此链接 https://github.com/wangwill/shadowsocks-heroku/blob/master/README.md
 除了最后我们是部署cracker而不是ss
 
 
