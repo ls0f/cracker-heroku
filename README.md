@@ -17,18 +17,6 @@ https://github.com/lovedboy/cracker-heroku
 ![](https://github.com/wangwill/cracker-heroku/blob/master/fork.png)
 
 
-
-#### !!!! 可以在这里选择自己的密码
-
-
-![](https://github.com/wangwill/cracker-heroku/blob/master/modify%20pw.png)
-
-####更改红圈内的字符 保留引号
-
-![](https://github.com/wangwill/cracker-heroku/blob/master/modify%20pw1.png)
-
-
-
 ####3.登陆Heroku创建新app并关联Github账户
 
 ![](https://github.com/wangwill/cracker-heroku/blob/master/new%20app.png)
@@ -48,6 +36,13 @@ https://github.com/lovedboy/cracker-heroku
 10s左右会有显示 部署结果
 
 成功的话 会显示Heroku项目网址
+
+#### !!!! 可以在这里设定自己的密码
+
+Setting 页面 ——> Reveal Config Vars，添加参数：
+SECRET= yourpassword
+![](https://github.com/wangwill/cracker-heroku/blob/master/change%20secret.png)
+
 
 ####5.客户端使用方法
 
