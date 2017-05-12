@@ -58,4 +58,7 @@ windows下 下载cracker最新的release：https://github.com/lovedboy/cracker/r
 
 ![](https://github.com/wangwill/cracker-heroku/blob/master/cmd-instruction.png)
 
+或者新建一个txt文件 输入上述启动指令 然后修改文件后缀名为 .bat
+这样可以直接双击这个.bat文件启动客户端exe
+
 ####6.浏览器以及本地支持代理的设置就不说了
