@@ -8,13 +8,13 @@ import (
 	"fmt"
 	"net"
 
-	"io/ioutil"
-
 	"errors"
 
 	"sync"
 
 	"github.com/lovedboy/cracker/cracker/logger"
+
+	"io"
 
 	"github.com/pborman/uuid"
 )
@@ -116,6 +116,7 @@ func (hp *httpProxy) pull(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/octet-stream")
 		w.Header().Set("Transfer-Encoding", "chunked")
 		buf := make([]byte, 10240)
+		defer pc.Close()
 		for {
 			flusher.Flush()
 			n, err := pc.remote.Read(buf)
@@ -123,10 +124,10 @@ func (hp *httpProxy) pull(w http.ResponseWriter, r *http.Request) {
 				w.Write(buf[:n])
 			}
 			if err != nil {
-				g.Debugf("read err:%s", err)
-				close(pc.close)
+				if err != io.EOF {
+					g.Debugf("read err:%s", err)
+				}
 				return
-
 			}
 		}
 	} else {
@@ -144,29 +145,21 @@ func (hp *httpProxy) push(w http.ResponseWriter, r *http.Request) {
 	hp.Unlock()
 	if ok {
 
-		var d dataBodyTyp
 		typ := r.Header.Get("TYP")
-		if typ == HEART_TYP {
-			d = dataBodyTyp{typ: HEART_TYP}
-		} else if typ == QUIT_TYP {
-			d = dataBodyTyp{typ: QUIT_TYP}
-
-		} else {
-
-			body, err := ioutil.ReadAll(r.Body)
-			if err != nil {
-				WriteHTTPError(w, fmt.Sprintf("read err:%v", err))
-				return
+		switch typ {
+		default:
+		case HEART_TYP:
+			pc.Heart()
+		case QUIT_TYP:
+			pc.Close()
+		case DATA_TYP:
+			_, err := io.Copy(pc.remote, r.Body)
+			if err != nil && err != io.EOF {
+				g.Debugf("write err:%v", err)
+				pc.Close()
 			}
-			d = dataBodyTyp{typ: DATA_TYP, body: body}
 		}
 
-		select {
-		case <-pc.close:
-			WriteHTTPError(w, "server close conn")
-		case pc.writeChannel <- d:
-			WriteHTTPOK(w, "send")
-		}
 	} else {
 		WriteHTTPError(w, "uuid don't exist")
 	}
@@ -181,13 +174,12 @@ func (hp *httpProxy) connect(w http.ResponseWriter, r *http.Request) {
 	host := r.Header.Get("DSTHOST")
 	port := r.Header.Get("DSTPORT")
 	addr := fmt.Sprintf("%s:%s", host, port)
-	g.Debugf("Connecting to %s:...", addr)
 	remote, err := net.DialTimeout("tcp", addr, time.Duration(time.Second*timeout))
 	if err != nil {
-		WriteHTTPError(w, fmt.Sprintf("Could not connect to %s", addr))
+		WriteHTTPError(w, fmt.Sprintf("could not connect to %s", addr))
 		return
 	}
-	g.Debugf("Connect to %s: success ...", addr)
+	g.Debugf("connect %s success", addr)
 	proxyID := uuid.New()
 	pc := newProxyConn(remote, proxyID)
 	hp.Lock()
@@ -195,9 +187,8 @@ func (hp *httpProxy) connect(w http.ResponseWriter, r *http.Request) {
 	hp.Unlock()
 
 	go func() {
-		pc.work()
-		remote.Close()
-		g.Debugf("close connection with %s ... ", remote.RemoteAddr().String())
+		pc.Do()
+		g.Debugf("disconnect %s", remote.RemoteAddr().String())
 		<-time.After(time.Duration(time.Second * heartTTL))
 		hp.Lock()
 		g.Debugf("delete uuid:%s ... \n", proxyID)

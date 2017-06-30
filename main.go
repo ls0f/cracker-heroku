@@ -9,7 +9,6 @@ import (
 	"github.com/lovedboy/cracker/cracker/proxy"
 )
 
-
 var g = logger.GetLogger()
 
 func main() {
@@ -17,10 +16,10 @@ func main() {
 	var port, secret string
 	port = os.Getenv("PORT")
 	secret = os.Getenv("SECRET")
-	if (port == ""){
+	if port == "" {
 		port = "80"
 	}
-	if secret == ""{
+	if secret == "" {
 		secret = "123456"
 	}
 	addr := fmt.Sprintf(":%s", port)

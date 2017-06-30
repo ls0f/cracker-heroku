@@ -1,17 +1,17 @@
 {
 	"ImportPath": "github.com/lovedboy/cracker-heroku",
 	"GoVersion": "go1.7",
-	"GodepVersion": "v77",
+	"GodepVersion": "v79",
 	"Deps": [
 		{
 			"ImportPath": "github.com/lovedboy/cracker/cracker/logger",
-			"Comment": "v2.1-8-g6831d9a",
-			"Rev": "6831d9ac3b3eb72a9c6ababc65284cdc7d536604"
+			"Comment": "v2.2.1-5-gaa29281",
+			"Rev": "aa292819dbcf0c8ef86e0c092c414b617122aa6a"
 		},
 		{
 			"ImportPath": "github.com/lovedboy/cracker/cracker/proxy",
-			"Comment": "v2.1-8-g6831d9a",
-			"Rev": "6831d9ac3b3eb72a9c6ababc65284cdc7d536604"
+			"Comment": "v2.2.1-5-gaa29281",
+			"Rev": "aa292819dbcf0c8ef86e0c092c414b617122aa6a"
 		},
 		{
 			"ImportPath": "github.com/op/go-logging",
