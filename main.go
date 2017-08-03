@@ -1,15 +1,11 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"os"
 
-	"github.com/lovedboy/cracker/cracker/logger"
-	"github.com/lovedboy/cracker/cracker/proxy"
+	"github.com/ls0f/cracker"
 )
-
-var g = logger.GetLogger()
 
 func main() {
 
@@ -23,10 +19,7 @@ func main() {
 		secret = "123456"
 	}
 	addr := fmt.Sprintf(":%s", port)
-	debug := flag.Bool("debug", false, "debug mode")
-	flag.Parse()
-	logger.InitLogger(*debug)
-	p := proxy.NewHttpProxy(addr, secret, false)
+	p := cracker.NewHttpProxy(addr, secret, false)
 	p.Listen()
 
 }
